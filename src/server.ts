@@ -2,19 +2,26 @@ import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import AuthRoutes from "./routes/auth.route";
 
 dotenv.config();
 
+// Express app
 const app = express();
 const port = process.env.PORT || 5000;
 
-if(process.env.NODE_ENV === "development") {
+// logger
+if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
-app.use(cors({origin: "*"}));
+// Middleware
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
+app.use("/api/auth", AuthRoutes);
 
+// Server running
 app.listen(port, () => console.log("Server is running!"));

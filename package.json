@@ -1,5 +1,5 @@
 {
-    "name": "insta-server",
+    "name": "insta-clone",
     "version": "1.0.0",
     "main": "build/server.js",
     "author": "Mahmoud Ibrahiam",
@@ -7,14 +7,14 @@
     "private": false,
     "dependencies": {
         "bcrypt": "^5.1.0",
+        "concurrently": "^8.0.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "joi": "^17.9.2",
         "jsonwebtoken": "^9.0.0",
         "mongoose": "^7.1.1",
-        "multer": "^1.4.5-lts.1",
-        "nanospinner": "^1.1.0"
+        "multer": "^1.4.5-lts.1"
     },
     "devDependencies": {
         "@tsconfig/node18": "^2.0.1",
@@ -30,8 +30,10 @@
         "typescript": "^5.0.4"
     },
     "scripts": {
+        "build": "tsc",
         "start": "node build/server.js",
-        "dev": "nodemon src/server.ts",
-        "build": "tsc"
+        "server": "nodemon src/server.ts",
+        "client": "yarn --cwd client dev",
+        "dev": "concurrently \"yarn server\" \"yarn client\""
     }
 }

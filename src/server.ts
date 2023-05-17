@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import { createSpinner } from "nanospinner";
 import AuthRoutes from "./routes/auth.route";
+import dbConnect from "./config/dbConnect";
 
 dotenv.config();
+
+// Database connection
+dbConnect();
 
 // Express app
 const app = express();
@@ -25,4 +29,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", AuthRoutes);
 
 // Server running
-app.listen(port, () => createSpinner("Server is running!").start());
+app.listen(port, () => createSpinner("Server is running! ").start());

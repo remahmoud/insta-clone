@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import { createSpinner } from "nanospinner";
 import AuthRoutes from "./routes/auth.route";
 
 dotenv.config();
@@ -24,4 +25,4 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", AuthRoutes);
 
 // Server running
-app.listen(port, () => console.log("Server is running!"));
+app.listen(port, () => createSpinner("Server is running!").start());

@@ -1,13 +1,16 @@
 import { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import Logo from "../assets/logo.png";
+import { useNavigate, Navigate } from "react-router-dom";
 import Input from "@src/components/Input";
-import instance from "@src/api/instance";
+import instance, { getToken } from "@src/api/instance";
+import Logo from "../assets/logo.png";
 
 type AuthState = "LOGIN" | "REGISTER";
 
 export default function Auth() {
+    const token = getToken();
+    const navigate = useNavigate();
     const [parent] = useAutoAnimate({
         duration: 400,
     });
@@ -45,7 +48,10 @@ export default function Auth() {
                     password: data.password,
                 })
                 .then((res) => {
-                    console.log(res.data);
+                    if (res.data.token) {
+                        localStorage.setItem("token", res.data.token);
+                        navigate("/");
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -55,13 +61,19 @@ export default function Auth() {
             await instance
                 .post("/auth/register", data)
                 .then((res) => {
-                    console.log(res);
+                    if (res.data.token) {
+                        localStorage.setItem("token", res.data.token);
+                        navigate("/");
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         }
     };
+    if (token) {
+        return <Navigate to="/" />;
+    }
     return (
         <div className="h-full container mx-auto flex items-center">
             <div className="px-6 mx-auto my-4 py-2 shadow-md border border-gray-200 rounded-lg w-96 max-w-md flex flex-col transition-all">

@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import AuthRoutes from "./routes/auth.route";
+import PostRoutes from "./routes/post.route";
 import dbConnect from "./config/dbConnect";
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", AuthRoutes);
+app.use("/api/posts", PostRoutes);
 
 // Server running
 app.listen(port, () => console.log("Server is running! "));

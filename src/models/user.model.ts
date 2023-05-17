@@ -50,6 +50,12 @@ const User = new Schema<IUser, IUserModel, IUserMethods>(
                 ref: "User",
             },
         ],
+        posts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Post",
+            },
+        ],
     },
     {
         timestamps: true,

@@ -22,6 +22,7 @@ export default function PostForm() {
         formData.append("caption", data.caption);
         await instance.post("/posts/create", formData).then(() => {
             setIsOpen(false);
+            setPreview(null);
             reset();
         });
     };
@@ -81,7 +82,7 @@ export default function PostForm() {
                         rows={5}
                         maxLength={250}
                         className={clsx(
-                            "p-3 resize-none focus:outline-none border border-gray-300 rounded-md mb-4",
+                            "p-3 resize-none focus:outline-none border border-gray-300 rounded-lg mb-4",
                             errors.caption && "border-red-500"
                         )}
                     />

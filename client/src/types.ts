@@ -8,3 +8,13 @@ export interface IUser {
     followers: string[];
     following: string[];
 }
+export interface IPost {
+    readonly id: string;
+    user: IUser;
+    caption: string;
+    image: string;
+    likes: string[];
+    comments: string[];
+    createdAt: string;
+    updatedAt: string;
+}

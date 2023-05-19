@@ -1,14 +1,15 @@
 import { FaUserPlus } from "react-icons/fa";
 import useSuggestedUsers from "@src/api/hooks/useSuggestedUsers";
-import Avatar from "../Avatar";
-import useFollowMutation from "@src/api/hooks/useFollowMutaion";
+import useFollowById from "@src/api/hooks/useFollowById";
 import { useQueryClient } from "@tanstack/react-query";
+import Avatar from "../Avatar";
 
 export default function SuggestedUsersList() {
     const queryClient = useQueryClient();
-    const { mutateAsync } = useFollowMutation();
+    const { mutateAsync } = useFollowById();
     const { data: users, isLoading } = useSuggestedUsers();
 
+    // handle follow
     const handleFollow = async (id: string) => {
         await mutateAsync(id, {
             onSuccess: () => {

@@ -1,4 +1,4 @@
-import useUser from "@src/api/hooks/useUser";
+import useGetUser from "@src/api/hooks/useGetUser";
 import { Link, useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import { useCallback, useState } from "react";
@@ -6,7 +6,7 @@ import PostForm from "./post/PostForm";
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const { data: user } = useUser();
+    const { data: user } = useGetUser();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = () => {
@@ -34,11 +34,15 @@ export default function Navbar() {
                     {isOpen && (
                         <div className="absolute top-0 right-0 mt-12 w-48 bg-white rounded-md shadow-lg border border-gray-200">
                             <div>
+                                <h2 className="block capitalize rounded-t-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    {user?.fname} {user?.lname}
+                                </h2>
+                                <div className="border-t border-gray-100" />
                                 <Link
                                     to={`/user/${user?.id}`}
-                                    className="block capitalize rounded-t-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    className="block capitalize px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
-                                    {user?.fname} {user?.lname}
+                                    Profile
                                 </Link>
                                 <Link
                                     to="/settings"
@@ -47,7 +51,7 @@ export default function Navbar() {
                                     Settings
                                 </Link>
                             </div>
-                            <div className="border-t border-gray-100"></div>
+                            <div className="border-t border-gray-100" />
                             <button
                                 onClick={handleLogout}
                                 className="block w-full rounded-b-md text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

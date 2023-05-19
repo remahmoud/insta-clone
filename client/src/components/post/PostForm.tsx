@@ -2,11 +2,14 @@ import { useState } from "react";
 import Modal from "modalix";
 import { FaPlus } from "react-icons/fa";
 import { FcPicture } from "react-icons/fc";
-import instance from "@src/api/instance";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import clsx from "clsx";
+import useCreatePost from "@src/api/hooks/useCreatePost";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function PostForm() {
+    const queryClient = useQueryClient();
+    const { mutateAsync } = useCreatePost();
     const [isOpen, setIsOpen] = useState(false);
     const [preview, setPreview] = useState<File | null>();
     const {
@@ -20,10 +23,13 @@ export default function PostForm() {
         const formData = new FormData();
         formData.append("image", data.image[0]);
         formData.append("caption", data.caption);
-        await instance.post("/posts/create", formData).then(() => {
-            setIsOpen(false);
-            setPreview(null);
-            reset();
+        await mutateAsync(formData, {
+            onSuccess: () => {
+                setIsOpen(false);
+                setPreview(null);
+                reset();
+                queryClient.invalidateQueries(["posts"]);
+            },
         });
     };
     return (

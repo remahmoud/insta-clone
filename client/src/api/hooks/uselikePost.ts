@@ -1,10 +1,10 @@
 import instance from "../instance";
 import { useMutation } from "@tanstack/react-query";
 
-export default function useFollowMutation() {
+export default function useLikePost() {
     return useMutation({
-        mutationKey: ["suggestedUsers"],
+        mutationKey: ["posts"],
         mutationFn: (id: string) =>
-            instance.post(`/users/${id}/follow`).then((res) => res.data),
+            instance.post("/posts/like/" + id).then((res) => res.data),
     });
 }

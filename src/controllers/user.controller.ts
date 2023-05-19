@@ -21,7 +21,7 @@ class UserController {
                 .ne(user._id)
                 .where("_id")
                 .nin(user.following)
-                .limit(5);
+                .limit(2);
 
             // return the users
             return res.status(200).json(users);

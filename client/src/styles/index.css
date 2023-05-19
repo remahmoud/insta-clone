@@ -11,3 +11,8 @@ body,
 * {
     font-family: "Montserrat", sans-serif;
 }
+html,
+body {
+    overflow: hidden;
+    scroll-behavior: smooth;
+}

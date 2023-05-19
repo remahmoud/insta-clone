@@ -15,8 +15,13 @@ class PostController {
             }
 
             // get posts of users that the current user follows
-            const posts = await Post.find({ user: { $in: user.following } })
-                .populate("user")
+            const posts = await Post.find()
+                .where("user")
+                .in([...user.following, user._id])
+                .populate({
+                    path: "user",
+                    select: "username avatar fname lname",
+                })
                 .sort({ createdAt: -1 })
                 .limit(10);
 
@@ -69,7 +74,7 @@ class PostController {
                 return res.status(400).json({ error: "Photo required" });
             }
 
-            const image = `/${photo.destination}${photo.filename}`;
+            const image = `/uploads/${photo.filename}`;
 
             // create post
             let post = await Post.create({

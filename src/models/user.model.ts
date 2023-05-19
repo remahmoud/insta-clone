@@ -36,7 +36,9 @@ const User = new Schema<IUser, IUserModel, IUserMethods>(
         },
         avatar: {
             type: String,
-            default: "https://i.pravatar.cc/150",
+            default:
+                "https://i.pravatar.cc/150?img=" +
+                Math.floor(Math.random() * 70).toString(),
         },
         followers: [
             {

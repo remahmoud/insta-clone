@@ -15,7 +15,7 @@ export default function PostList() {
     return (
         <div ref={parent} className="flex flex-col divide-y divide-gray-300">
             {posts.map((post) => (
-                <PostItem post={post} key={post.id}>
+                <PostItem userId={user.id} post={post} key={post.id}>
                     <div className="flex items-center gap-2">
                         <LikeButton post={post} user={user} />
                         <Link

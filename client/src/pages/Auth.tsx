@@ -3,8 +3,11 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useNavigate, Navigate } from "react-router-dom";
 import Input from "@src/components/Input";
-import instance, { getToken } from "@src/api/instance";
+import { getToken } from "@src/api/instance";
 import Logo from "../assets/logo.png";
+import useLogin from "@src/api/hooks/useLogin";
+import useRegister from "@src/api/hooks/useRegister";
+import { RegisterType } from "@src/types";
 
 type AuthState = "LOGIN" | "REGISTER";
 
@@ -14,6 +17,9 @@ export default function Auth() {
     const [parent] = useAutoAnimate({
         duration: 400,
     });
+
+    const { mutateAsync: loginMutate } = useLogin();
+    const { mutateAsync: registerMutate } = useRegister();
     const [authState, setAuthState] = useState<AuthState>("LOGIN");
     const {
         register,
@@ -42,33 +48,28 @@ export default function Auth() {
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         if (authState === "LOGIN") {
             // handle login
-            await instance
-                .post("/auth/login", {
-                    email: data.email,
-                    password: data.password,
-                })
-                .then((res) => {
-                    if (res.data.token) {
-                        localStorage.setItem("token", res.data.token);
+            const reqData = {
+                email: data.email,
+                password: data.password,
+            };
+            await loginMutate(reqData, {
+                onSuccess: (data) => {
+                    if (data.token) {
+                        localStorage.setItem("token", data.token);
                         navigate("/");
                     }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                },
+            });
         } else {
             // handle register
-            await instance
-                .post("/auth/register", data)
-                .then((res) => {
-                    if (res.data.token) {
-                        localStorage.setItem("token", res.data.token);
+            await registerMutate(data as RegisterType, {
+                onSuccess: (data) => {
+                    if (data.token) {
+                        localStorage.setItem("token", data.token);
                         navigate("/");
                     }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                },
+            });
         }
     };
     if (token) {

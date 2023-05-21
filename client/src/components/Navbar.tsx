@@ -3,14 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import { useCallback, useState } from "react";
 import PostForm from "./post/PostForm";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Navbar() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const { data: user } = useGetUser();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        queryClient.removeQueries({
+            queryKey: ["user"],
+        });
         navigate("/auth");
     };
     const openMenu = useCallback(() => {

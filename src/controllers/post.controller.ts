@@ -42,6 +42,9 @@ class PostController {
                 .populate({
                     path: "comments",
                     populate: { path: "user" },
+                    options: {
+                        sort: { createdAt: -1 },
+                    },
                 });
 
             // check if post exists

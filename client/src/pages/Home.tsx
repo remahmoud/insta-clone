@@ -4,7 +4,8 @@ import PostList from "@src/components/post/PostList";
 import SuggestedUsersList from "@src/components/users/SuggestedUsersList";
 
 export default function Home() {
-    const { isLoading } = useGetUser();
+    const { isLoading, data: user } = useGetUser();
+    if (!user) return null;
     return (
         <MainLayout isLoading={isLoading}>
             <SuggestedUsersList />

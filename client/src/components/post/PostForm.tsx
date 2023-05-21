@@ -44,7 +44,7 @@ export default function PostForm() {
             <Modal visible={isOpen} onClickOut={() => setIsOpen(false)}>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="p-4 bg-white flex flex-col rounded-md w-96"
+                    className="p-4 bg-white flex flex-col rounded-md w-full lg:w-96"
                 >
                     <h2 className="text-3xl font-semibold mb-4 text-center">
                         Create post
